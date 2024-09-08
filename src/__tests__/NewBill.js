@@ -40,7 +40,7 @@ describe("Given I am connected as an employee", () => {
       document.body.append(root);
       router();
     });
-
+    //Vérifie que le formulaire et le champ de fichier sont correctement rendus dans le DOM.
     test("Then all the form inputs should be rendered correctly", () => {
       const html = NewBillUI();
       document.body.innerHTML = html;
@@ -51,7 +51,7 @@ describe("Given I am connected as an employee", () => {
       const fileInput = screen.getByTestId("file");
       expect(fileInput).toBeInTheDocument();
     });
-
+    //Teste que l'icône de courrier est mise en évidence
     test("Then the mail icon in the vertical layout should be highlighted", async () => {
       window.onNavigate(ROUTES_PATH.NewBill);
       await waitFor(() => screen.getAllByTestId("icon-mail"));
@@ -61,6 +61,8 @@ describe("Given I am connected as an employee", () => {
     });
 
     describe("When I interact with the NewBill form", () => {
+      // Vérifie que la validation échoue si un fichier d'un type non valide est soumis et
+      //Vérifie que l'utilisateur peut ajouter un fichier valide et que la méthode handleChangeFile est appelée.
       test("Then file validation fails for invalid file types", async () => {
         const newBill = setNewBill();
 
@@ -113,7 +115,7 @@ describe("Given I am connected as an employee", () => {
         expect(handleChangeFile).toHaveBeenCalled();
       });
     });
-
+    //Vérifie que la fonction handleSubmit est appelée lors de la soumission du formulaire
     describe("When I submit the form", () => {
       test("Then, the handleSubmit function should be called", () => {
         document.body.innerHTML = NewBillUI();
@@ -136,7 +138,7 @@ describe("Given I am connected as an employee", () => {
       });
     });
 
-    // API
+    // POST new bill.Vérifie qu'une nouvelle note de frais est correctement ajoutée
     describe("When I submit the form", () => {
       describe("And the form is valid", () => {
         test("Then a new bill is added via the mock API POST", async () => {
@@ -162,7 +164,7 @@ describe("Given I am connected as an employee", () => {
           expect(postBills).toStrictEqual(bill);
         });
       });
-
+      //Vérifie la gestion des erreurs lorsque l'API échoue avec des erreurs 404 ou 500.
       describe("When an error occurs on API", () => {
         test("Then new bill is added to the API but fetch fails with '404 page not found' error", async () => {
           const newBill = setNewBill();
